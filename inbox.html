@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Your Inbox</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>User Inbox</title>
 </head>
 <body>
-  <div class="container">
-    <h1>Your Messages</h1>
-    <ul id="inbox">
-      <li>You are amazing!</li>
-      <li>Keep pushing bro 🔥</li>
-    </ul>
-  </div>
+  <h2 id="username">Inbox</h2>
+  <ul id="messageList"></ul>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const user = params.get("user");
+    const inbox = JSON.parse(localStorage.getItem(`inbox_${user}`)) || [];
+
+    document.getElementById("username").innerText = `Inbox for ${user}`;
+    const list = document.getElementById("messageList");
+
+    inbox.forEach(msg => {
+      const li = document.createElement("li");
+      li.textContent = msg;
+      list.appendChild(li);
+    });
+  </script>
 </body>
 </html>
