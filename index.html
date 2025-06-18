@@ -5,28 +5,35 @@
   <title>Send Anonymous Message</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #121212;
-      color: #fff;
+      background: #0f0f0f;
+      color: white;
+      font-family: sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
     }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     input, button {
-      padding: 10px;
+      padding: 12px;
       margin: 10px;
+      width: 280px;
       font-size: 16px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
     }
-    input {
-      width: 250px;
-    }
+
     button {
       background: #00ff88;
-      color: black;
+      color: #000;
+      font-weight: bold;
       cursor: pointer;
     }
   </style>
@@ -35,33 +42,29 @@
   <h1>Send Anonymous Message</h1>
 
   <form id="messageForm">
-    <input type="text" id="messageInput" placeholder="Enter your message" required>
-    <input type="hidden" id="receiver" value="muller">
+    <input type="text" id="messageInput" placeholder="Enter your message" required />
+    <input type="hidden" id="receiver" value="muller" />
     <button type="submit">Send</button>
   </form>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const form = document.getElementById("messageForm");
+    document.getElementById("messageForm").addEventListener("submit", function (e) {
+      e.preventDefault();
 
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
+      const message = document.getElementById("messageInput").value.trim();
+      const receiver = document.getElementById("receiver").value;
 
-        const message = document.getElementById("messageInput").value.trim();
-        const receiver = document.getElementById("receiver").value;
+      if (!message) {
+        alert("Please enter a message.");
+        return;
+      }
 
-        if (!message) {
-          alert("Please enter a message.");
-          return;
-        }
+      const inboxKey = "inbox_" + receiver;
+      const inbox = JSON.parse(localStorage.getItem(inboxKey)) || [];
+      inbox.push(message);
+      localStorage.setItem(inboxKey, JSON.stringify(inbox));
 
-        const inboxKey = `inbox_${receiver}`;
-        const inbox = JSON.parse(localStorage.getItem(inboxKey)) || [];
-        inbox.push(message);
-        localStorage.setItem(inboxKey, JSON.stringify(inbox));
-
-        window.location.href = `inbox.html?user=${receiver}`;
-      });
+      window.location.href = `inbox.html?user=${receiver}`;
     });
   </script>
 </body>
