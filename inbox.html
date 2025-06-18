@@ -3,6 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <title>User Inbox</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: white;
+      padding: 20px;
+    }
+
+    h2 {
+      color: #00ff88;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background: #222;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+    }
+  </style>
 </head>
 <body>
   <h2 id="username">Inbox</h2>
@@ -19,6 +43,7 @@
       document.getElementById("username").innerText = `Inbox for ${user}`;
 
       const list = document.getElementById("messageList");
+
       inbox.forEach(msg => {
         const li = document.createElement("li");
         li.textContent = msg;
