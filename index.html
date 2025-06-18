@@ -6,27 +6,37 @@
 </head>
 <body>
   <h1>Send Anonymous Message</h1>
+
   <form id="messageForm">
     <input type="text" id="messageInput" placeholder="Enter your message" required>
-    <input type="hidden" id="receiver" value="muller"> <!-- you can change "muller" -->
+    <input type="hidden" id="receiver" value="muller"> <!-- Change to your username -->
     <button type="submit">Send</button>
   </form>
 
   <script>
-    document.getElementById("messageForm").addEventListener("submit", function(event) {
-      event.preventDefault(); // stop default form action
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("messageForm");
 
-      const message = document.getElementById("messageInput").value;
-      const receiver = document.getElementById("receiver").value;
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
 
-      // Save to localStorage (temporary inbox system)
-      const inboxKey = `inbox_${receiver}`;
-      const inbox = JSON.parse(localStorage.getItem(inboxKey)) || [];
-      inbox.push(message);
-      localStorage.setItem(inboxKey, JSON.stringify(inbox));
+        const message = document.getElementById("messageInput").value.trim();
+        const receiver = document.getElementById("receiver").value;
 
-      // Redirect to inbox.html with the username
-      window.location.href = `inbox.html?user=${receiver}`;
+        if (!message) {
+          alert("Please enter a message.");
+          return;
+        }
+
+        // Save to localStorage
+        const inboxKey = `inbox_${receiver}`;
+        const inbox = JSON.parse(localStorage.getItem(inboxKey)) || [];
+        inbox.push(message);
+        localStorage.setItem(inboxKey, JSON.stringify(inbox));
+
+        // Redirect to inbox
+        window.location.href = `inbox.html?user=${receiver}`;
+      });
     });
   </script>
 </body>
